@@ -22,4 +22,11 @@
     width: 100%;
     flex-grow: 1;
   }
+
+  &__footer {
+    padding: 0.5rem 0;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    text-align: center;
+  }
 }

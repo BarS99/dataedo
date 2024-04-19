@@ -1,0 +1,6 @@
+{
+  "hosting": {
+    "public": "dist/dataedo/browser",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+  }
+}
