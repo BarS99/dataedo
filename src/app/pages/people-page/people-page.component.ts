@@ -67,6 +67,10 @@ export class PeoplePageComponent implements OnDestroy {
   private isTimerActive$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(true);
 
+  private timerStartTimestamp: number = 0;
+  private timerElapsedTime: number = 0;
+  private timerDelay: number = 5000;
+
   public userResponse = toSignal(
     concat(this.user$, this.nextUserSender$).pipe(
       map((result) => ({
@@ -93,6 +97,9 @@ export class PeoplePageComponent implements OnDestroy {
   }
 
   public setTimerState(isTimerActive: boolean): void {
+    if (!isTimerActive) {
+      this.timerElapsedTime = this.getTimerElapsedTime();
+    }
     this.isTimerActive$.next(isTimerActive);
   }
 
@@ -100,6 +107,7 @@ export class PeoplePageComponent implements OnDestroy {
     if (disableButton) {
       this.buttonDisabled.set(true);
     }
+    this.timerElapsedTime = 0;
     this.setTimerState(true);
     this.user$.pipe(takeUntil(this.destroy$)).subscribe((user) => {
       this.nextUserSender$.next(user);
@@ -112,15 +120,25 @@ export class PeoplePageComponent implements OnDestroy {
     this.isTimerActive$
       .pipe(
         filter((isTimerActive) => isTimerActive),
-        switchMap(() =>
-          timer(5000, 5000).pipe(
+        switchMap(() => {
+          this.timerStartTimestamp = Date.now();
+          return timer(
+            this.timerDelay - this.timerElapsedTime,
+            this.timerDelay,
+          ).pipe(
             takeUntil(this.destroy$),
             takeUntil(
               this.isTimerActive$.pipe(filter((isActive) => !isActive)),
             ),
-          ),
-        ),
+          );
+        }),
       )
       .subscribe(() => this.loadNextUser());
+  }
+
+  private getTimerElapsedTime(): number {
+    return this.timerElapsedTime === 0
+      ? Date.now() - this.timerStartTimestamp
+      : Date.now() - this.timerStartTimestamp + this.timerElapsedTime;
   }
 }
