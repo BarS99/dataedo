@@ -14,7 +14,7 @@ import { BaseRandomUserRepositoryService } from '../../repositories/random-user-
 import { RandomUserRepositoryService } from '../../repositories/random-user-respository/random-user-repository.service';
 import { ContainerComponent } from '../../shared/components/container/container.component';
 import { CardComponent } from '../../shared/components/card/card.component';
-import { NgIf, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 import { ButtonDirective } from '../../shared/directives/button.directive';
 import { SpinnerComponent } from '../../shared/components/spinner/spinner.component';
 import {
@@ -43,7 +43,6 @@ import { DetectMouseDirective } from '../../shared/directives/detect-mouse.direc
     NgOptimizedImage,
     ButtonDirective,
     DetectMouseDirective,
-    NgIf,
   ],
   providers: [
     RandomUserService,

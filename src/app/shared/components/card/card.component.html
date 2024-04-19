@@ -1,23 +1,26 @@
 <article class="card">
   @if (image) {
-  <div class="card__image">
-    <ng-container *ngTemplateOutlet="image"></ng-container>
-  </div>
-  } @if (subtitle || title) {
-  <header class="card__header">
-    @if(subtitle) {
-    <div class="card__subtitle h3 text--color-shady">
-      <ng-container *ngTemplateOutlet="subtitle"></ng-container>
+    <div class="card__image">
+      <ng-container *ngTemplateOutlet="image"></ng-container>
     </div>
-    } @if(title) {
-    <div class="card__title h1">
-      <ng-container *ngTemplateOutlet="title"></ng-container>
+  }
+  @if (subtitle || title) {
+    <header class="card__header">
+      @if (subtitle) {
+        <div class="card__subtitle h3 text--color-shady">
+          <ng-container *ngTemplateOutlet="subtitle"></ng-container>
+        </div>
+      }
+      @if (title) {
+        <div class="card__title h1">
+          <ng-container *ngTemplateOutlet="title"></ng-container>
+        </div>
+      }
+    </header>
+  }
+  @if (content) {
+    <div class="card__content text">
+      <ng-container *ngTemplateOutlet="content"></ng-container>
     </div>
-    }
-  </header>
-  } @if (content) {
-  <div class="card__content text">
-    <ng-container *ngTemplateOutlet="content"></ng-container>
-  </div>
   }
 </article>
