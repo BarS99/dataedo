@@ -1,1 +1,15 @@
-/* You can add global styles to this file, and also import other style files */
+@use "./styles/reset";
+@use "./styles/button";
+@use "./styles/typography";
+
+:root {
+  --color-text: #4f575c;
+  --color-primary: #007bff;
+  --color-primary-accent: #0b5ed7;
+  --color-white: #fff;
+  --color-shady: #a3a3a3;
+}
+
+html {
+  color: var(--color-text);
+}

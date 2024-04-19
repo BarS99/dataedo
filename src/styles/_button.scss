@@ -1,0 +1,64 @@
+%button-shared {
+  display: inline-flex;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  text-decoration: none;
+  font-size: 1.25rem;
+  transition:
+    color 0.3s,
+    background-color 0.3s,
+    border-color 0.3s,
+    filter 0.3s;
+  cursor: pointer;
+
+  &[disabled] {
+    filter: grayscale(1);
+    cursor: not-allowed;
+  }
+}
+
+@mixin action-styles {
+  &:hover,
+  &:focus-visible,
+  &:active {
+    @content;
+  }
+}
+
+.app-button {
+  @extend %button-shared;
+
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-primary);
+  background-color: var(--color-primary);
+  color: var(--color-white);
+
+  &:visited {
+    color: var(--color-white);
+  }
+
+  @include action-styles {
+    border-color: var(--color-primary-accent);
+    background-color: var(--color-primary-accent);
+  }
+}
+
+.app-link-button {
+  @extend %button-shared;
+
+  color: var(--color-primary);
+
+  &:visited {
+    color: var(--color-primary);
+  }
+
+  @include action-styles {
+    color: var(--color-primary-accent);
+  }
+
+  &--active {
+    font-weight: 700;
+  }
+}

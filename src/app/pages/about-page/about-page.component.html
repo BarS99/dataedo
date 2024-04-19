@@ -1,0 +1,13 @@
+<app-container>
+  <div class="about-page">
+    <app-section>
+      <h1 section-title class="h1">{{ title }}</h1>
+      <div section-text class="text" [innerHTML]="text | sanitizeHtml"></div>
+    </app-section>
+
+    <div
+      class="text text--color-shady"
+      [innerHTML]="textBottom | sanitizeHtml"
+    ></div>
+  </div>
+</app-container>

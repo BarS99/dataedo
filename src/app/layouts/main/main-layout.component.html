@@ -1,0 +1,22 @@
+@if (headerItems.length) {
+  <header class="main-layout__header">
+    <app-container>
+      <nav class="main-layout__nav">
+        @for (item of headerItems; track $index) {
+          <a
+            appButton="link"
+            #button="appButton"
+            [routerLink]="[item.href]"
+            [routerLinkActive]="[button.activeStateClassName]"
+          >
+            {{ item.text }}
+          </a>
+        }
+      </nav>
+    </app-container>
+  </header>
+}
+
+<main class="main-layout__content">
+  <router-outlet></router-outlet>
+</main>

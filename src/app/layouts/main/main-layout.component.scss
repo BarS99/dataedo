@@ -1,0 +1,25 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 2rem;
+}
+
+.main-layout {
+  &__header {
+    padding: 1.5rem 0;
+  }
+
+  &__nav {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex-grow: 1;
+  }
+}

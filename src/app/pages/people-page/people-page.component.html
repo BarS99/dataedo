@@ -1,0 +1,49 @@
+<app-container>
+  @if (user(); as user) {
+    <app-card data-test="card">
+      <ng-template #image>
+        <img
+          class="people-page__img"
+          [ngSrc]="user.picture.large"
+          [alt]="user.name.first + ' ' + user.name.last"
+          width="128"
+          height="128"
+          priority
+          (appDetectMouse)="setTimerState(!$event)"
+          data-test="image"
+        />
+      </ng-template>
+      <ng-template #subtitle>
+        <p (appDetectMouse)="setTimerState(!$event)" data-test="subtitle">
+          Hi, My name is
+        </p>
+      </ng-template>
+      <ng-template #title>
+        <h1 (appDetectMouse)="setTimerState(!$event)" data-test="title">
+          {{ user.name.first + " " + user.name.last }}
+        </h1>
+      </ng-template>
+      <ng-template #content>
+        <button
+          appButton
+          type="button"
+          (click)="loadNextUser(true)"
+          (appDetectMouse)="setTimerState(!$event)"
+          data-test="button"
+          [disabled]="buttonDisabled()"
+        >
+          New
+        </button>
+      </ng-template>
+    </app-card>
+  } @else {
+    <section class="people-page__loader">
+      @if (userError()) {
+        <p class="text" role="alert" data-test="error">
+          Unknown error! Retrying...
+        </p>
+      }
+      <app-spinner data-test="spinner" />
+    </section>
+  }
+</app-container>

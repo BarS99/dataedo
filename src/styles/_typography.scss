@@ -1,0 +1,62 @@
+.text {
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+
+  &--color {
+    &-shady {
+      color: var(--color-shady);
+    }
+  }
+
+  a {
+    color: var(--color-primary);
+
+    &:hover,
+    &:focus-visible,
+    &:active {
+      color: var(--color-primary-accent);
+    }
+  }
+
+  ul {
+    padding-inline-start: 1.5rem;
+
+    li::before {
+      content: "";
+      display: inline-block;
+      vertical-align: middle;
+      width: 0.4rem;
+      height: 0.4rem;
+      margin-top: -0.2rem;
+      margin-inline: -1.5rem 0.9rem;
+      border-radius: 50%;
+      background-color: currentColor;
+    }
+  }
+}
+
+.h1,
+.h2,
+.h4,
+.h4 {
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  font-weight: 700;
+}
+
+.h1 {
+  font-size: 1.5rem;
+}
+
+.h2 {
+  font-size: 1.25rem;
+}
+
+.h3 {
+  font-size: 1.15rem;
+}
+
+.h4 {
+  font-size: 1rem;
+}
