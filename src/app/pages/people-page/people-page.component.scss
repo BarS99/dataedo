@@ -8,6 +8,21 @@
 }
 
 .people-page {
+  &__card {
+    pointer-events: none;
+  }
+
+  &__img,
+  &__subtitle,
+  &__title,
+  &__button {
+    pointer-events: initial;
+  }
+
+  &__subtitle {
+    display: inline-block;
+  }
+
   &__loader {
     display: flex;
     flex-direction: column;

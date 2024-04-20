@@ -1,6 +1,10 @@
 <app-container>
   @if (user(); as user) {
-    <app-card data-test="card">
+    <app-card
+      class="people-page__card"
+      (appDetectMouse)="setTimerState(!$event)"
+      data-test="card"
+    >
       <ng-template #image>
         <img
           class="people-page__img"
@@ -9,26 +13,23 @@
           width="128"
           height="128"
           priority
-          (appDetectMouse)="setTimerState(!$event)"
           data-test="image"
         />
       </ng-template>
       <ng-template #subtitle>
-        <p (appDetectMouse)="setTimerState(!$event)" data-test="subtitle">
-          Hi, My name is
-        </p>
+        <p class="people-page__subtitle" data-test="subtitle">Hi, My name is</p>
       </ng-template>
       <ng-template #title>
-        <h1 (appDetectMouse)="setTimerState(!$event)" data-test="title">
+        <h1 class="people-page__title" data-test="title">
           {{ user.name.first + " " + user.name.last }}
         </h1>
       </ng-template>
       <ng-template #content>
         <button
+          class="people-page__button"
           appButton
           type="button"
           (click)="loadNextUser(true)"
-          (appDetectMouse)="setTimerState(!$event)"
           data-test="button"
           [disabled]="buttonDisabled()"
         >

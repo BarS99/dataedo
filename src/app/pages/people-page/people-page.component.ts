@@ -106,8 +106,7 @@ export class PeoplePageComponent implements OnDestroy {
     if (disableButton) {
       this.buttonDisabled.set(true);
     }
-    this.timerElapsedTime = 0;
-    this.setTimerState(true);
+    this.resetTimer();
     this.user$.pipe(takeUntil(this.destroy$)).subscribe((user) => {
       this.nextUserSender$.next(user);
       this.buttonDisabled.set(false);
@@ -125,12 +124,12 @@ export class PeoplePageComponent implements OnDestroy {
             this.timerDelay - this.timerElapsedTime,
             this.timerDelay,
           ).pipe(
-            takeUntil(this.destroy$),
             takeUntil(
               this.isTimerActive$.pipe(filter((isActive) => !isActive)),
             ),
           );
         }),
+        takeUntil(this.destroy$),
       )
       .subscribe(() => this.loadNextUser());
   }
@@ -139,5 +138,10 @@ export class PeoplePageComponent implements OnDestroy {
     return this.timerElapsedTime === 0
       ? Date.now() - this.timerStartTimestamp
       : Date.now() - this.timerStartTimestamp + this.timerElapsedTime;
+  }
+
+  private resetTimer(): void {
+    this.timerElapsedTime = 0;
+    this.setTimerState(true);
   }
 }

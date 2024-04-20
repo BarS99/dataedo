@@ -179,97 +179,25 @@ describe('PeoplePageComponent', () => {
 
     describe('appDetectMouse', () => {
       let setTimerStateSpy: jasmine.Spy;
+      let card: HTMLElement | null;
 
       beforeEach(() => {
         setTimerStateSpy = spyOn(component, 'setTimerState');
+        card = fixture.debugElement.nativeElement.querySelector(
+          '[data-test="card"]',
+        ) as HTMLElement | null;
       });
 
-      describe('image', () => {
-        let image: HTMLImageElement | null;
+      it('should send false on mouseenter', () => {
+        card?.dispatchEvent(new Event('mouseenter'));
 
-        beforeEach(() => {
-          image = fixture.debugElement.nativeElement.querySelector(
-            '[data-test="image"]',
-          ) as HTMLImageElement | null;
-        });
-
-        it('should send false on mouseenter', () => {
-          image?.dispatchEvent(new Event('mouseenter'));
-
-          expect(setTimerStateSpy).toHaveBeenCalledWith(false);
-        });
-
-        it('should send true on mouseleave', () => {
-          image?.dispatchEvent(new Event('mouseleave'));
-
-          expect(setTimerStateSpy).toHaveBeenCalledWith(true);
-        });
+        expect(setTimerStateSpy).toHaveBeenCalledWith(false);
       });
 
-      describe('subtitle', () => {
-        let subtitle: HTMLParagraphElement | null;
+      it('should send true on mouseleave', () => {
+        card?.dispatchEvent(new Event('mouseleave'));
 
-        beforeEach(() => {
-          subtitle = fixture.debugElement.nativeElement.querySelector(
-            '[data-test="subtitle"]',
-          ) as HTMLParagraphElement | null;
-        });
-
-        it('should send false on mouseenter', () => {
-          subtitle?.dispatchEvent(new Event('mouseenter'));
-
-          expect(setTimerStateSpy).toHaveBeenCalledWith(false);
-        });
-
-        it('should send true on mouseleave', () => {
-          subtitle?.dispatchEvent(new Event('mouseleave'));
-
-          expect(setTimerStateSpy).toHaveBeenCalledWith(true);
-        });
-      });
-
-      describe('title', () => {
-        let title: HTMLTitleElement | null;
-
-        beforeEach(() => {
-          title = fixture.debugElement.nativeElement.querySelector(
-            '[data-test="title"]',
-          ) as HTMLTitleElement | null;
-        });
-
-        it('should send false on mouseenter', () => {
-          title?.dispatchEvent(new Event('mouseenter'));
-
-          expect(setTimerStateSpy).toHaveBeenCalledWith(false);
-        });
-
-        it('should send true on mouseleave', () => {
-          title?.dispatchEvent(new Event('mouseleave'));
-
-          expect(setTimerStateSpy).toHaveBeenCalledWith(true);
-        });
-      });
-
-      describe('button', () => {
-        let button: HTMLButtonElement | null;
-
-        beforeEach(() => {
-          button = fixture.debugElement.nativeElement.querySelector(
-            '[data-test="title"]',
-          ) as HTMLButtonElement | null;
-        });
-
-        it('should send false on mouseenter', () => {
-          button?.dispatchEvent(new Event('mouseenter'));
-
-          expect(setTimerStateSpy).toHaveBeenCalledWith(false);
-        });
-
-        it('should send true on mouseleave', () => {
-          button?.dispatchEvent(new Event('mouseleave'));
-
-          expect(setTimerStateSpy).toHaveBeenCalledWith(true);
-        });
+        expect(setTimerStateSpy).toHaveBeenCalledWith(true);
       });
     });
   });
