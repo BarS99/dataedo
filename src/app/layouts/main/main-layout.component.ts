@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { ContainerComponent } from '../../shared/components/container/container.component';
-import { ButtonDirective } from '../../shared/directives/button.directive';
+import { ContainerComponent } from '@app/shared/components/container/container.component';
+import { ButtonDirective } from '@app/shared/directives/button.directive';
 
 interface HeaderItem {
   text: string;

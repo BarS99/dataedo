@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SectionComponent } from '../../shared/components/section/section.component';
-import { SanitizeHtmlPipe } from '../../shared/pipes/sanitize-html.pipe';
-import { ContainerComponent } from '../../shared/components/container/container.component';
+import { ContainerComponent } from '@app/shared/components/container/container.component';
+import { SectionComponent } from '@app/shared/components/section/section.component';
+import { SanitizeHtmlPipe } from '@app/shared/pipes/sanitize-html.pipe';
 
 const MOCK_ABOUT_PAGE_TITLE = 'Recruitment Task';
 const MOCK_ABOUT_PAGE_TEXT = `

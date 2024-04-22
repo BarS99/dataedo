@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { ApiResponse } from '../models/api.model';
-import { User } from '../models/user.model';
+import { ApiResponse } from '@app/models/api.model';
+import { User } from '@app/models/user.model';
+import { BaseRandomUserRepositoryService } from '@app/repositories/random-user-respository/base-random-user-repository.service';
 import { Observable, map } from 'rxjs';
-import { BaseRandomUserRepositoryService } from '../repositories/random-user-respository/base-random-user-repository.service';
 
 @Injectable({
   providedIn: 'root',

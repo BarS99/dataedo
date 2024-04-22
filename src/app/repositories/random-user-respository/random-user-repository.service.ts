@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { ApiResponse } from '@app/models/api.model';
 import { Observable } from 'rxjs';
-import { API } from '../../app.config';
-import { ApiResponse } from '../../models/api.model';
-import { User } from '../../models/user.model';
 import { BaseRandomUserRepositoryService } from './base-random-user-repository.service';
+import { User } from '@app/models/user.model';
+import { API } from 'app/app.config';
 
 @Injectable({
   providedIn: 'root',

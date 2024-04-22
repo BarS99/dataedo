@@ -8,15 +8,8 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { RandomUserService } from '../../services/random-user.service';
-import { BaseRandomUserRepositoryService } from '../../repositories/random-user-respository/base-random-user-repository.service';
-import { RandomUserRepositoryService } from '../../repositories/random-user-respository/random-user-repository.service';
-import { ContainerComponent } from '../../shared/components/container/container.component';
-import { CardComponent } from '../../shared/components/card/card.component';
 import { NgOptimizedImage } from '@angular/common';
-import { ButtonDirective } from '../../shared/directives/button.directive';
-import { SpinnerComponent } from '../../shared/components/spinner/spinner.component';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   BehaviorSubject,
   Observable,
@@ -30,8 +23,15 @@ import {
   takeUntil,
   timer,
 } from 'rxjs';
-import { User } from '../../models/user.model';
-import { DetectMouseDirective } from '../../shared/directives/detect-mouse.directive';
+import { User } from '@app/models/user.model';
+import { RandomUserService } from '@app/services/random-user.service';
+import { BaseRandomUserRepositoryService } from '@app/repositories/random-user-respository/base-random-user-repository.service';
+import { RandomUserRepositoryService } from '@app/repositories/random-user-respository/random-user-repository.service';
+import { CardComponent } from '@app/shared/components/card/card.component';
+import { SpinnerComponent } from '@app/shared/components/spinner/spinner.component';
+import { ContainerComponent } from '@app/shared/components/container/container.component';
+import { ButtonDirective } from '@app/shared/directives/button.directive';
+import { DetectMouseDirective } from '@app/shared/directives/detect-mouse.directive';
 
 @Component({
   selector: 'app-people-page',
@@ -70,6 +70,9 @@ export class PeoplePageComponent implements OnDestroy {
   private timerElapsedTime: number = 0;
   private timerDelay: number = 5000;
 
+  private isMouseInElement: boolean = false;
+  private isUserLoading: boolean = false;
+
   public userResponse = toSignal(
     concat(this.user$, this.nextUserSender$).pipe(
       map((result) => ({
@@ -85,9 +88,7 @@ export class PeoplePageComponent implements OnDestroy {
   public buttonDisabled = signal<boolean>(false);
 
   constructor() {
-    afterNextRender(() => {
-      this.startUserTimer();
-    });
+    afterNextRender(() => this.startUserTimer());
   }
 
   public ngOnDestroy(): void {
@@ -97,21 +98,38 @@ export class PeoplePageComponent implements OnDestroy {
 
   public setTimerState(isTimerActive: boolean): void {
     if (!isTimerActive) {
-      this.timerElapsedTime = this.getTimerElapsedTime();
+      this.timerElapsedTime =
+        Date.now() - this.timerStartTimestamp + this.timerElapsedTime;
     }
+    this.isMouseInElement = !isTimerActive;
     this.isTimerActive$.next(isTimerActive);
   }
 
-  public loadNextUser(disableButton: boolean = false): void {
-    if (disableButton) {
-      this.buttonDisabled.set(true);
+  public loadNextUser(): void {
+    if (!this.isUserLoading) {
+      this.user$
+        .pipe(
+          takeUntil(this.destroy$),
+          catchError(() => of(null)),
+        )
+        .subscribe({
+          next: (user) => this.nextUserSender$.next(user),
+          complete: () => {
+            this.isUserLoading = false;
+            this.buttonDisabled.set(false);
+            this.timerStartTimestamp = Date.now();
+            this.timerElapsedTime = 0;
+            this.setTimerState(!this.isMouseInElement);
+            this.cdRef.detectChanges();
+          },
+        });
     }
-    this.resetTimer();
-    this.user$.pipe(takeUntil(this.destroy$)).subscribe((user) => {
-      this.nextUserSender$.next(user);
-      this.buttonDisabled.set(false);
-      this.cdRef.detectChanges();
-    });
+    this.isUserLoading = true;
+  }
+
+  public buttonClick(): void {
+    this.buttonDisabled.set(true);
+    this.loadNextUser();
   }
 
   private startUserTimer(): void {
@@ -120,10 +138,8 @@ export class PeoplePageComponent implements OnDestroy {
         filter((isTimerActive) => isTimerActive),
         switchMap(() => {
           this.timerStartTimestamp = Date.now();
-          return timer(
-            this.timerDelay - this.timerElapsedTime,
-            this.timerDelay,
-          ).pipe(
+          const delay = this.timerDelay - this.timerElapsedTime;
+          return timer(delay <= 0 ? 0 : delay, this.timerDelay).pipe(
             takeUntil(
               this.isTimerActive$.pipe(filter((isActive) => !isActive)),
             ),
@@ -132,16 +148,5 @@ export class PeoplePageComponent implements OnDestroy {
         takeUntil(this.destroy$),
       )
       .subscribe(() => this.loadNextUser());
-  }
-
-  private getTimerElapsedTime(): number {
-    return this.timerElapsedTime === 0
-      ? Date.now() - this.timerStartTimestamp
-      : Date.now() - this.timerStartTimestamp + this.timerElapsedTime;
-  }
-
-  private resetTimer(): void {
-    this.timerElapsedTime = 0;
-    this.setTimerState(true);
   }
 }

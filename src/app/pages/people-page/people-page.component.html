@@ -29,9 +29,9 @@
           class="people-page__button"
           appButton
           type="button"
-          (click)="loadNextUser(true)"
-          data-test="button"
           [disabled]="buttonDisabled()"
+          (click)="buttonClick()"
+          data-test="button"
         >
           New
         </button>
